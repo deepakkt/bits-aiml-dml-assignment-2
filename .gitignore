@@ -1,4 +1,57 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+.python-version
+
+# Packaging
+build/
+dist/
+*.egg-info/
+
+# Test and tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# IDE/editor
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+
+# Runtime artifacts
+artifacts/
+report/report.pdf
+
+# Dataset extraction and intermediate data
+data/extracted/
+data/processed/
+data/raw/*.zip
+data/raw/*.tar
+data/raw/*.tar.gz
+data/raw/*.tgz
+!data/raw/.gitkeep
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Local prompt/spec helper
 spec.md
-state.md
-cats-and-dogs-classification-dataset.zip
-.idea
+
+# Local environment and secrets
+.env
+.env.*
+*.pem
+*.key
