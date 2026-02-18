@@ -20,6 +20,14 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path("configs/fedavg.yaml"),
         help="Path to FedAvg config file (JSON-compatible YAML).",
     )
+
+    fedawa_parser = subparsers.add_parser("fedawa", help="Run FedAWA experiment.")
+    fedawa_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/fedawa.yaml"),
+        help="Path to FedAWA config file (JSON-compatible YAML).",
+    )
     return parser
 
 
@@ -30,6 +38,12 @@ def main(argv: list[str] | None = None) -> int:
 
         config = load_fedavg_config(args.config)
         run_fedavg_experiment(config)
+        return 0
+    if args.command == "fedawa":
+        from src.fl.fedawa import load_fedawa_config, run_fedawa_experiment
+
+        config = load_fedawa_config(args.config)
+        run_fedawa_experiment(config)
         return 0
 
     print(f"Hello from {args.name}!")

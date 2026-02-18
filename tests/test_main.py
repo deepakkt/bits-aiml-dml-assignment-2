@@ -1,4 +1,4 @@
-from src.main import main
+from src.main import build_parser, main
 
 
 def test_main_prints_greeting(capsys) -> None:
@@ -7,3 +7,9 @@ def test_main_prints_greeting(capsys) -> None:
 
     assert exit_code == 0
     assert captured.out.strip() == "Hello from Part 1!"
+
+
+def test_main_parser_includes_fedawa_subcommand() -> None:
+    args = build_parser().parse_args(["fedawa", "--config", "configs/fedawa.yaml"])
+
+    assert args.command == "fedawa"

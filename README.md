@@ -9,8 +9,8 @@ This repository contains an incremental implementation of the Advanced Federated
 
 ## Current Status
 
-- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning), Part 4 (model + train/eval utilities + serialization), Part 5 (FedAvg end-to-end experiment)
-- Pending: Parts 6-13
+- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning), Part 4 (model + train/eval utilities + serialization), Part 5 (FedAvg end-to-end experiment), Part 6 (FedAWA + FedAvg comparison)
+- Pending: Parts 7-13
 
 ## Quick Start
 
@@ -150,6 +150,42 @@ Equivalent direct CLI:
 ```bash
 .venv/bin/python -m src.main fedavg --config configs/fedavg.yaml
 ```
+
+## FedAWA + FedAvg Comparison (Part 6)
+
+Run FedAWA under the same training setup as FedAvg. By default, this command
+also executes FedAvg baseline first and writes a comparison plot:
+
+```bash
+./scripts/experiments/run_fedawa.sh
+```
+
+Optional config override:
+
+```bash
+./scripts/experiments/run_fedawa.sh configs/fedawa.yaml
+```
+
+Outputs:
+
+- FedAWA metrics CSV: `artifacts/metrics/fedawa/metrics.csv`
+- FedAWA snapshots: `artifacts/models/fedawa/round_<n>.pkl`
+- FedAWA accuracy plot: `artifacts/plots/fedawa/accuracy_vs_rounds.png`
+- FedAvg vs FedAWA comparison plot: `artifacts/plots/comparison/fedavg_vs_fedawa_accuracy.png`
+
+FedAWA formulas used in this implementation:
+
+- Client vector: `tau_k^t = theta_k^t - theta_g^{t-1}`
+- Global direction: `Delta_g^t = theta_g^{t-1} - theta_g^{t-2}`
+- Alignment: `a_k^t = cosine(tau_k^t, Delta_g^t)`
+- Adaptive aggregation:
+  `w_k^t = [n_k * max(a_k^t, 0)] / sum_j[n_j * max(a_j^t, 0)]`
+
+Negative alignment handling:
+
+- Any negative cosine value is clipped to `0`.
+- If all clipped alignments are `0` (or direction is unavailable/degenerate),
+  aggregation falls back to dataset-size weighting (FedAvg-style).
 
 ## Repository Layout
 
