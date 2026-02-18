@@ -4,8 +4,8 @@ This repository contains an incremental implementation of the Advanced Federated
 
 ## Current Status
 
-- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing)
-- Pending: Parts 3-13
+- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning)
+- Pending: Parts 4-13
 
 ## Quick Start
 
@@ -69,6 +69,28 @@ Optional env overrides:
 
 - `SPLIT_SEED` (default: `42`)
 - `TRAIN_RATIO` (default: `0.8`)
+
+## Dirichlet Non-IID Client Partitioning (Part 3)
+
+After preprocessing creates `data/processed/image_index.jsonl` and
+`data/splits/train_test_manifest.json`, generate a 10-client non-IID split using
+Dirichlet `alpha=0.5`:
+
+```bash
+.venv/bin/python -m src.data.partition_dirichlet
+```
+
+Outputs:
+
+- Client partition manifest: `data/splits/dirichlet_clients_manifest.json`
+- Distribution sanity table: `data/splits/dirichlet_clients_sanity.csv`
+
+Optional flags:
+
+- `--num-clients` (default: `10`)
+- `--alpha` (default: `0.5`)
+- `--seed` (default: `42`)
+- `--source-split` (default: `train`)
 
 ## Repository Layout
 

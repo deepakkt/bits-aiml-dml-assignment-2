@@ -5,3 +5,10 @@ dataset:
   split_manifest_path: data/splits/train_test_manifest.json
   split_seed: 42
   train_ratio: 0.8
+  dirichlet:
+    source_split: train
+    output_manifest_path: data/splits/dirichlet_clients_manifest.json
+    sanity_table_path: data/splits/dirichlet_clients_sanity.csv
+    num_clients: 10
+    alpha: 0.5
+    seed: 42
