@@ -1,0 +1,41 @@
+src/plotting/line_plot.py
+  4ff0992cce753a45 1-115
+tests/test_fedavg.py
+  4ff0992cce753a45 1-61
+src/common/__init__.py
+  4ff0992cce753a45 1,3-28
+README.md
+  4ff0992cce753a45 7-8,122-146
+src/plotting/__init__.py
+  4ff0992cce753a45 1-3
+src/fl/__init__.py
+  4ff0992cce753a45 1-23
+src/main.py
+  4ff0992cce753a45 4,14-22,28-34
+src/fl/fedavg.py
+  4ff0992cce753a45 1-457
+configs/fedavg.yaml
+  4ff0992cce753a45 1-32
+scripts/experiments/run_fedavg.sh
+  4ff0992cce753a45 1-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "2a1ba4a8eebb16681298bc98b7c3986d497d4aaf",
+  "prompts": {
+    "4ff0992cce753a45": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c70c7-6074-7560-b048-dfd67e00b491",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Deepak <deepak.kumaran@gmail.com>",
+      "messages": [],
+      "total_additions": 797,
+      "total_deletions": 21,
+      "accepted_lines": 797,
+      "overriden_lines": 0
+    }
+  }
+}
