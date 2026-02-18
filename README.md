@@ -4,8 +4,8 @@ This repository contains an incremental implementation of the Advanced Federated
 
 ## Current Status
 
-- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning), Part 4 (model + train/eval utilities + serialization)
-- Pending: Parts 5-13
+- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning), Part 4 (model + train/eval utilities + serialization), Part 5 (FedAvg end-to-end experiment)
+- Pending: Parts 6-13
 
 ## Quick Start
 
@@ -117,6 +117,33 @@ The snapshot payload structure is:
     "metrics": {...},
     "timestamp": "...",
 }
+```
+
+## FedAvg End-to-End Experiment (Part 5)
+
+Run the graded FedAvg baseline (10 clients, Dirichlet alpha `0.5`, 50 rounds,
+dataset-size weighted aggregation):
+
+```bash
+./scripts/experiments/run_fedavg.sh
+```
+
+Optional config override:
+
+```bash
+./scripts/experiments/run_fedavg.sh configs/fedavg.yaml
+```
+
+Outputs:
+
+- Metrics CSV: `artifacts/metrics/fedavg/metrics.csv`
+- Model snapshots: `artifacts/models/fedavg/round_<n>.pkl`
+- Accuracy plot: `artifacts/plots/fedavg/accuracy_vs_rounds.png`
+
+Equivalent direct CLI:
+
+```bash
+.venv/bin/python -m src.main fedavg --config configs/fedavg.yaml
 ```
 
 ## Repository Layout

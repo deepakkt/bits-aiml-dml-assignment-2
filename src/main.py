@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from pathlib import Path
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -10,11 +11,27 @@ def build_parser() -> argparse.ArgumentParser:
         default="Advanced FL Assignment",
         help="Name to print in the greeting.",
     )
+    subparsers = parser.add_subparsers(dest="command")
+
+    fedavg_parser = subparsers.add_parser("fedavg", help="Run FedAvg experiment.")
+    fedavg_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/fedavg.yaml"),
+        help="Path to FedAvg config file (JSON-compatible YAML).",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    if args.command == "fedavg":
+        from src.fl.fedavg import load_fedavg_config, run_fedavg_experiment
+
+        config = load_fedavg_config(args.config)
+        run_fedavg_experiment(config)
+        return 0
+
     print(f"Hello from {args.name}!")
     return 0
 
