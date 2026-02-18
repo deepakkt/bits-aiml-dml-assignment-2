@@ -3,7 +3,7 @@
 ## Completed Parts
 
 - [x] Part 1 — Repo bootstrap & developer ergonomics
-- [ ] Part 2 — Dataset handling + preprocessing
+- [x] Part 2 — Dataset handling + preprocessing
 - [ ] Part 3 — Dirichlet non-IID partitioning
 - [ ] Part 4 — Model + train/eval + serialization
 - [ ] Part 5 — FedAvg end-to-end
@@ -16,58 +16,75 @@
 - [ ] Part 12 — Kubernetes + Argo CD + monitoring scripts
 - [ ] Part 13 — Final polish
 
-## Key Decisions (Part 1)
+## Key Decisions
 
-- Python runtime pinned to `3.11` via `scripts/dev/bootstrap_venv.sh`.
-- Added a deterministic, idempotent bootstrap script that:
-  - checks for `python3.11`
-  - creates `.venv` only if missing
-  - installs pinned dependencies from `requirements.txt`
-- Pinned tooling versions:
+- Runtime/environment:
+  - Python runtime pinned to `3.11` via `scripts/dev/bootstrap_venv.sh`.
+  - Bootstrap remains idempotent (`.venv` created only if missing).
+  - `pytest` config now includes `pythonpath = ["."]` so `src.*` imports resolve during tests.
+- Pinned dependencies:
   - `black==24.10.0`
+  - `kaggle==1.6.17`
   - `pytest==8.3.3`
   - `ruff==0.6.9`
-- Added Git-LFS tracking rule for dataset zip in `.gitattributes`:
+- Data handling (Part 2):
+  - Dataset zip source of truth path: `data/raw/cats-and-dogs-classification-dataset.zip`.
+  - `scripts/data/get_dataset.sh` behavior:
+    - reuses pre-placed zip (no re-download)
+    - attempts Kaggle fallback only when credentials are detected
+    - fails clearly when credentials are missing
+    - supports optional `KAGGLE_DATASET`/`KAGGLE_FILE` overrides
+  - `scripts/data/preprocess_dataset.sh` behavior:
+    - checksum markers:
+      - extraction marker: `data/extracted/.extract_<sha256>.done`
+      - preprocess marker: `data/processed/.preprocess_<sha256>.done`
+    - deterministic split defaults:
+      - `SPLIT_SEED=42`
+      - `TRAIN_RATIO=0.8`
+  - Dataset utilities in `src/data/dataset.py`:
+    - robust nested layout discovery (`Cat(s)` + `Dog(s)` directories up to 2 levels deep)
+    - image index format (`data/processed/image_index.jsonl`):
+      - per line: `{id, label, path}`
+    - split manifest format (`data/splits/train_test_manifest.json`):
+      - metadata + `splits.train` and `splits.test` sample IDs
+- Git-LFS rule retained:
   - `data/raw/*.zip filter=lfs diff=lfs merge=lfs -text`
-- Introduced baseline project scaffolding for assignment-aligned folders.
-- Added minimal CLI entrypoint (`src/main.py`) and a smoke unit test (`tests/test_main.py`).
 
-## File Paths Introduced/Updated in Part 1
+## File Paths Introduced/Updated in Part 2
 
-- `.gitignore`
-- `.gitattributes`
+- `configs/dataset.yaml`
+- `pyproject.toml` (pytest path fix for stable test discovery)
+- `scripts/data/get_dataset.sh`
+- `scripts/data/preprocess_dataset.sh`
 - `requirements.txt`
-- `pyproject.toml`
 - `README.md`
+- `src/data/__init__.py`
+- `src/data/dataset.py`
+- `src/data/preprocess.py`
 - `state.md`
-- `Makefile`
-- `scripts/dev/bootstrap_venv.sh`
-- `src/main.py`
-- `src/__init__.py`
-- `tests/test_main.py`
-- scaffold placeholder files (`.gitkeep`) in empty directories
+- `tests/test_dataset.py`
 
 ## How To Run
 
 ```bash
 ./scripts/dev/bootstrap_venv.sh
+./scripts/data/get_dataset.sh
+./scripts/data/preprocess_dataset.sh
 make lint
 make format-check
 make test
-make run
 ```
 
 ## Gotchas
 
 - `python3.11` must be available on `PATH`.
-- Bootstrapping needs access to a Python package index unless dependencies are pre-cached.
-- This part intentionally does not include dataset download/preprocessing logic yet.
+- `scripts/data/get_dataset.sh` only performs Kaggle fallback if credentials are available.
+- If Kaggle dataset has multiple zip files, set `KAGGLE_FILE` explicitly.
+- `preprocess_dataset.sh` relies on `unzip` and checksum utility `shasum`.
+- Corrupt image files (if any) are still indexed by extension; filtering invalid files can be added later if needed.
 
-## Next Part Handoff (Part 2)
+## Next Part Handoff (Part 3)
 
-- Implement `scripts/data/get_dataset.sh` with:
-  - pre-placed zip reuse behavior
-  - optional Kaggle download fallback
-  - clear credential-missing failure mode
-- Implement `scripts/data/preprocess_dataset.sh` with idempotent extraction/indexing and marker files.
-- Add Python-side dataset indexing/loader utilities under `src/data/`.
+- Implement Dirichlet non-IID partitioning with `alpha=0.5` for `10` clients.
+- Persist partition manifests under `data/splits/` with per-client sample IDs.
+- Add partition sanity output (table and/or plot) for quick validation.

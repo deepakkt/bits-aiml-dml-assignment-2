@@ -4,8 +4,8 @@ This repository contains an incremental implementation of the Advanced Federated
 
 ## Current Status
 
-- Implemented: Part 1 (repo bootstrap and developer ergonomics)
-- Pending: Parts 2-13
+- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing)
+- Pending: Parts 3-13
 
 ## Quick Start
 
@@ -30,13 +30,45 @@ make test
 make run
 ```
 
-## Dataset Placement
+## Dataset Pipeline (Part 2)
 
-If you already have the dataset zip, keep it at:
+### 1) Acquire zip (idempotent)
+
+Preferred: pre-place the zip here:
 
 - `data/raw/cats-and-dogs-classification-dataset.zip`
 
-Dataset acquisition and preprocessing scripts are added in later parts.
+Then run:
+
+```bash
+./scripts/data/get_dataset.sh
+```
+
+If the zip is already present, the script reuses it and exits.
+If missing, it will attempt Kaggle download only when credentials are configured
+(`KAGGLE_USERNAME`/`KAGGLE_KEY` or `~/.kaggle/kaggle.json`).
+
+Optional download overrides:
+
+- `KAGGLE_DATASET` (default: `tongpython/cat-and-dog`)
+- `KAGGLE_FILE` (required when the dataset has multiple zip files)
+
+### 2) Extract and preprocess (idempotent)
+
+```bash
+./scripts/data/preprocess_dataset.sh
+```
+
+This script:
+
+- extracts the zip into `data/extracted/` with checksum marker files
+- builds image index at `data/processed/image_index.jsonl`
+- generates deterministic train/test split manifest at `data/splits/train_test_manifest.json`
+
+Optional env overrides:
+
+- `SPLIT_SEED` (default: `42`)
+- `TRAIN_RATIO` (default: `0.8`)
 
 ## Repository Layout
 

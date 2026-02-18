@@ -1,0 +1,7 @@
+dataset:
+  raw_zip_path: data/raw/cats-and-dogs-classification-dataset.zip
+  extracted_dir: data/extracted
+  index_path: data/processed/image_index.jsonl
+  split_manifest_path: data/splits/train_test_manifest.json
+  split_seed: 42
+  train_ratio: 0.8
