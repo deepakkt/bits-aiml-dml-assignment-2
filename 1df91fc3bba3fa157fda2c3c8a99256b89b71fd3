@@ -1,0 +1,41 @@
+tests/test_fedawa.py
+  719ab2d624b63593 1-102
+configs/fedawa.yaml
+  719ab2d624b63593 1-41
+src/main.py
+  719ab2d624b63593 23-30,42-46
+tests/test_main.py
+  719ab2d624b63593 1,10-15
+src/fl/__init__.py
+  719ab2d624b63593 8,10-11,13-14
+src/plotting/__init__.py
+  719ab2d624b63593 1,3
+src/plotting/line_plot.py
+  719ab2d624b63593 8,10-11,13,16,18-19,21-35,49-50,55,97,113,119,123-124,127-137,145-159
+src/fl/fedawa.py
+  719ab2d624b63593 1-745
+README.md
+  719ab2d624b63593 12-13,154-188
+scripts/experiments/run_fedawa.sh
+  719ab2d624b63593 1-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "1df91fc3bba3fa157fda2c3c8a99256b89b71fd3",
+  "prompts": {
+    "719ab2d624b63593": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c714f-5ede-7f21-b6a5-c6b1e14ab169",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Deepak <deepak.kumaran@gmail.com>",
+      "messages": [],
+      "total_additions": 1053,
+      "total_deletions": 28,
+      "accepted_lines": 1044,
+      "overriden_lines": 0
+    }
+  }
+}
