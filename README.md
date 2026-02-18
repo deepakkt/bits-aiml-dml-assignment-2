@@ -4,8 +4,8 @@ This repository contains an incremental implementation of the Advanced Federated
 
 ## Current Status
 
-- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning)
-- Pending: Parts 4-13
+- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning), Part 4 (model + train/eval utilities + serialization)
+- Pending: Parts 5-13
 
 ## Quick Start
 
@@ -91,6 +91,33 @@ Optional flags:
 - `--alpha` (default: `0.5`)
 - `--seed` (default: `42`)
 - `--source-split` (default: `train`)
+
+## Model + Training Utilities (Part 4)
+
+Part 4 adds reusable training primitives for upcoming FL experiments:
+
+- CNN model: `src/models/simple_cnn.py`
+- Tensor dataset adapters: `src/data/torch_dataset.py`
+- Local train/eval loops: `src/common/train_eval.py`
+- `.pkl` snapshot save/load: `src/common/serialization.py`
+- CSV metrics logger: `src/common/metrics.py`
+
+Example snapshot path convention:
+
+- `artifacts/models/<experiment_name>/round_<n>.pkl`
+
+The snapshot payload structure is:
+
+```python
+{
+    "model_name": "...",
+    "round": 0,
+    "state_dict": {...},
+    "config": {...},
+    "metrics": {...},
+    "timestamp": "...",
+}
+```
 
 ## Repository Layout
 
