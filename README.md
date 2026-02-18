@@ -2,6 +2,11 @@
 
 This repository contains an incremental implementation of the Advanced Federated Learning programming assignment.
 
+## Architecture
+
+![](architecture.png)
+
+
 ## Current Status
 
 - Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning), Part 4 (model + train/eval utilities + serialization), Part 5 (FedAvg end-to-end experiment)
