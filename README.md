@@ -9,8 +9,8 @@ This repository contains an incremental implementation of the Advanced Federated
 
 ## Current Status
 
-- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning), Part 4 (model + train/eval utilities + serialization), Part 5 (FedAvg end-to-end experiment), Part 6 (FedAWA + FedAvg comparison)
-- Pending: Parts 7-13
+- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning), Part 4 (model + train/eval utilities + serialization), Part 5 (FedAvg end-to-end experiment), Part 6 (FedAWA + FedAvg comparison), Part 7 (DFL baseline without caching)
+- Pending: Parts 8-13
 
 ## Quick Start
 
@@ -186,6 +186,38 @@ Negative alignment handling:
 - Any negative cosine value is clipped to `0`.
 - If all clipped alignments are `0` (or direction is unavailable/degenerate),
   aggregation falls back to dataset-size weighting (FedAvg-style).
+
+## DFL Baseline (No Caching) (Part 7)
+
+Run decentralized federated learning with 10 agents and random pairwise
+encounters (no central server, no cache):
+
+```bash
+./scripts/experiments/run_dfl.sh
+```
+
+Optional config override:
+
+```bash
+./scripts/experiments/run_dfl.sh configs/dfl.yaml
+```
+
+Communication round definition used in this implementation:
+
+- One communication round includes:
+  1. Local training on each agent's private partition for the configured local
+     epochs.
+  2. Random pairwise encounters (without replacement) where each encountered
+     pair replaces both local models with their parameter-wise average.
+
+Default encounters per round for 10 agents is 5 (a full random matching).
+
+Outputs:
+
+- Metrics CSV (mean across agents): `artifacts/metrics/dfl/metrics.csv`
+- Per-agent model snapshots: `artifacts/models/dfl/round_<r>_agent_<k>.pkl`
+- Accuracy plot (mean test accuracy vs rounds):
+  `artifacts/plots/dfl/accuracy_vs_rounds.png`
 
 ## Repository Layout
 

@@ -13,3 +13,9 @@ def test_main_parser_includes_fedawa_subcommand() -> None:
     args = build_parser().parse_args(["fedawa", "--config", "configs/fedawa.yaml"])
 
     assert args.command == "fedawa"
+
+
+def test_main_parser_includes_dfl_subcommand() -> None:
+    args = build_parser().parse_args(["dfl", "--config", "configs/dfl.yaml"])
+
+    assert args.command == "dfl"

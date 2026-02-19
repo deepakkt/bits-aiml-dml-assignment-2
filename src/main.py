@@ -28,6 +28,14 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path("configs/fedawa.yaml"),
         help="Path to FedAWA config file (JSON-compatible YAML).",
     )
+
+    dfl_parser = subparsers.add_parser("dfl", help="Run DFL baseline experiment.")
+    dfl_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/dfl.yaml"),
+        help="Path to DFL config file (JSON-compatible YAML).",
+    )
     return parser
 
 
@@ -44,6 +52,12 @@ def main(argv: list[str] | None = None) -> int:
 
         config = load_fedawa_config(args.config)
         run_fedawa_experiment(config)
+        return 0
+    if args.command == "dfl":
+        from src.dfl.simulator import load_dfl_config, run_dfl_experiment
+
+        config = load_dfl_config(args.config)
+        run_dfl_experiment(config)
         return 0
 
     print(f"Hello from {args.name}!")
