@@ -1,0 +1,37 @@
+configs/dfl.yaml
+  954dc0770af7e0e6 1-35
+scripts/experiments/run_dfl.sh
+  954dc0770af7e0e6 1-32
+src/dfl/simulator.py
+  954dc0770af7e0e6 1-511
+README.md
+  954dc0770af7e0e6 12-13,190-220
+tests/test_main.py
+  954dc0770af7e0e6 16-21
+src/dfl/__init__.py
+  954dc0770af7e0e6 1-15
+src/main.py
+  954dc0770af7e0e6 31-38,56-60
+tests/test_dfl.py
+  954dc0770af7e0e6 1-108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "2003eee7e7f887fd765766b8e0ab165c2a9b19b0",
+  "prompts": {
+    "954dc0770af7e0e6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c719d-1703-7f20-9c0d-057c75840336",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Deepak <deepak.kumaran@gmail.com>",
+      "messages": [],
+      "total_additions": 755,
+      "total_deletions": 2,
+      "accepted_lines": 755,
+      "overriden_lines": 0
+    }
+  }
+}
