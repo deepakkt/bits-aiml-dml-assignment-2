@@ -9,8 +9,8 @@ This repository contains an incremental implementation of the Advanced Federated
 
 ## Current Status
 
-- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning), Part 4 (model + train/eval utilities + serialization), Part 5 (FedAvg end-to-end experiment), Part 6 (FedAWA + FedAvg comparison), Part 7 (DFL baseline without caching)
-- Pending: Parts 8-13
+- Implemented: Part 1 (repo bootstrap and developer ergonomics), Part 2 (dataset handling + preprocessing), Part 3 (Dirichlet non-IID partitioning), Part 4 (model + train/eval utilities + serialization), Part 5 (FedAvg end-to-end experiment), Part 6 (FedAWA + FedAvg comparison), Part 7 (DFL baseline without caching), Part 8 (Cached-DFL + comparison)
+- Pending: Parts 9-13
 
 ## Quick Start
 
@@ -218,6 +218,40 @@ Outputs:
 - Per-agent model snapshots: `artifacts/models/dfl/round_<r>_agent_<k>.pkl`
 - Accuracy plot (mean test accuracy vs rounds):
   `artifacts/plots/dfl/accuracy_vs_rounds.png`
+
+## Cached-DFL + Comparison (Part 8)
+
+Run Cached-DFL (`cache_size=3`, `tau_max=5`) and compare it against no-cache DFL:
+
+```bash
+./scripts/experiments/run_cached_dfl.sh
+```
+
+Optional config override:
+
+```bash
+./scripts/experiments/run_cached_dfl.sh configs/cached_dfl.yaml
+```
+
+Cached-DFL round semantics:
+
+- Before local training, each agent removes stale cache entries where
+  `current_round - round_seen > tau_max`.
+- The agent warm-starts local training from the parameter-wise average of:
+  - its current model
+  - all non-stale cached models
+- During each random pairwise encounter, both agents average current models (same
+  as Part 7), and each caches the peer's pre-encounter model.
+- Cache is bounded to the most recent `cache_size` models (newer entries replace
+  older ones; same-source entries are updated in-place).
+
+Outputs:
+
+- Cached-DFL metrics CSV: `artifacts/metrics/cached_dfl/metrics.csv`
+- Cached-DFL snapshots: `artifacts/models/cached_dfl/round_<r>_agent_<k>.pkl`
+- Cached-DFL accuracy plot: `artifacts/plots/cached_dfl/accuracy_vs_rounds.png`
+- No-cache vs cached comparison plot:
+  `artifacts/plots/comparison/dfl_vs_cached_dfl_accuracy.png`
 
 ## Repository Layout
 

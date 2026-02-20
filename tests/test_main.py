@@ -19,3 +19,9 @@ def test_main_parser_includes_dfl_subcommand() -> None:
     args = build_parser().parse_args(["dfl", "--config", "configs/dfl.yaml"])
 
     assert args.command == "dfl"
+
+
+def test_main_parser_includes_cached_dfl_subcommand() -> None:
+    args = build_parser().parse_args(["cached_dfl", "--config", "configs/cached_dfl.yaml"])
+
+    assert args.command == "cached_dfl"

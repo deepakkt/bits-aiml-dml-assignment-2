@@ -36,6 +36,17 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path("configs/dfl.yaml"),
         help="Path to DFL config file (JSON-compatible YAML).",
     )
+
+    cached_dfl_parser = subparsers.add_parser(
+        "cached_dfl",
+        help="Run Cached-DFL experiment and compare with no-cache DFL.",
+    )
+    cached_dfl_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/cached_dfl.yaml"),
+        help="Path to Cached-DFL config file (JSON-compatible YAML).",
+    )
     return parser
 
 
@@ -58,6 +69,12 @@ def main(argv: list[str] | None = None) -> int:
 
         config = load_dfl_config(args.config)
         run_dfl_experiment(config)
+        return 0
+    if args.command == "cached_dfl":
+        from src.dfl.cached_simulator import load_cached_dfl_config, run_cached_dfl_experiment
+
+        config = load_cached_dfl_config(args.config)
+        run_cached_dfl_experiment(config)
         return 0
 
     print(f"Hello from {args.name}!")
