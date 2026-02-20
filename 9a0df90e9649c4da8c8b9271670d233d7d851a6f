@@ -1,0 +1,21 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "9a0df90e9649c4da8c8b9271670d233d7d851a6f",
+  "prompts": {
+    "487e24369124b5f1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c7b66-d455-7f72-b551-3f0a02aa92a8",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Deepak <deepak.kumaran@gmail.com>",
+      "messages": [],
+      "total_additions": 45142,
+      "total_deletions": 0,
+      "accepted_lines": 45142,
+      "overriden_lines": 0
+    }
+  }
+}
